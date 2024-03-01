@@ -38,8 +38,6 @@ class ViewController: UIViewController {
         
     }
     
-    
-    
     // MARK: - IBActions
     @IBAction func numbers(_ sender: UIButton) {
         guard var value = lblNumber.text else { return }
@@ -51,24 +49,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tapPlus(_ sender: UIButton) {
-        guard let value = lblNumber.text else { return }
+        guard let value = lblNumber.text, let valueInt = Int(value) else { return }
         
-        firstValue = Int(value) ?? 0
-        secondValue = Int(value) ?? 0
+        firstValue = Int(valueInt)
         
-        operation = .plus
         lblNumber.text = ""
+        operation = .plus
         
         plus.backgroundColor = .white
         plus.tintColor = colorDeafault
-        
     }
     
     @IBAction func tapMinus(_ sender: UIButton) {
-        guard let value = lblNumber.text else { return }
+        guard let value = lblNumber.text, let valueInt = Int(value) else { return }
         
-        firstValue = Int(value) ?? 0
-        secondValue = Int(value) ?? 0
+        firstValue = Int(valueInt)
         
         operation = .minus
         lblNumber.text = ""
@@ -78,10 +73,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tapMultiplication(_ sender: UIButton) {
-        guard let value = lblNumber.text else { return }
+        guard let value = lblNumber.text, let valueInt = Int(value) else { return }
         
-        firstValue = Int(value) ?? 0
-        secondValue = Int(value) ?? 0
+        firstValue = Int(valueInt)
         
         operation = .multiplication
         lblNumber.text = ""
@@ -91,10 +85,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tapDivision(_ sender: UIButton) {
-        guard let value = lblNumber.text else { return }
+        guard let value = lblNumber.text, let valueInt = Int(value) else { return }
         
-        firstValue = Int(value) ?? 0
-        secondValue = Int(value) ?? 0
+        firstValue = Int(valueInt)
         
         operation = .division
         lblNumber.text = ""
@@ -110,8 +103,7 @@ class ViewController: UIViewController {
     @IBAction func tapEquals(_ sender: UIButton) {
         guard let value = lblNumber.text, let valueInt = Int(value) else { return }
         
-        firstValue = Int(value) ?? 0
-        secondValue = Int(value) ?? 0
+        secondValue = Int(valueInt)
         
         equal.tintColor = colorDeafault
         equal.backgroundColor = .white
@@ -132,8 +124,10 @@ class ViewController: UIViewController {
         //MARK: - Operation
         switch operation {
         case .division:
-            let result = firstValue / secondValue
-            lblNumber.text = "\(result)"
+            if firstValue != 0 && secondValue != 0 {
+                let result = firstValue / secondValue
+                lblNumber.text = "\(result)"
+            }
         case .multiplication:
             let result = firstValue * secondValue
             lblNumber.text = "\(result)"
@@ -146,31 +140,10 @@ class ViewController: UIViewController {
         case .none:
             break
         }
-        
-        guard let valueStr = lblNumber.text, let value = Int(valueStr) else { return }
-        
-        secondValue = value
-        
-        //        var result = 0 // Или используйте Double для поддержки дробных чисел
-        //
-        //        switch operation {
-        //        case .division:
-        //            result = secondValue != 0 ? firstValue / secondValue : 0 // Добавить проверку на деление на ноль
-        //        case .multiplication:
-        //            result = firstValue * secondValue
-        //        case .minus:
-        //            result = firstValue - secondValue
-        //        case .plus:
-        //            result = firstValue + secondValue
-        //        case .none:
-        //            break
-        //        }
-        //
-        //        lblNumber.text = "\(result)"
     }
     
     @IBAction func tapDeleteNumber(_ sender: UIButton) {
-        lblNumber.text = "" // как убрать 0?
+        lblNumber.text = ""
         
         equal.tintColor = .white
         equal.backgroundColor = colorDeafault
@@ -191,27 +164,18 @@ class ViewController: UIViewController {
     @IBAction func comma(_ sender: UIButton) {
         guard var value = lblNumber.text else { return }
         
-        
         value += ","
         lblNumber.text = value
         
         sender.isEnabled = false
     }
     
-    
     // MARK: - Private methods
     private func setupUI() {
         for view in numberCalculator {
-            view.layer.cornerRadius = 25
+            view.layer.cornerRadius = 35
         }
-        //        lblNumber.text = "0"
         lblNumber.font = .systemFont(ofSize: 70)
         view.backgroundColor = .black
     }
-    
-    
-    
-    
-    
 }
-
